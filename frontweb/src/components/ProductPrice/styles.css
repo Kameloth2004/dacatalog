@@ -1,5 +1,6 @@
 .product-price-container {
   display: flex;
+  height: 50px;
 }
 
 .product-price-container span {
