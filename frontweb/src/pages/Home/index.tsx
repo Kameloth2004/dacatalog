@@ -16,7 +16,7 @@ const App = () => {
             </p>
           </div>
           <Link to="/products">
-            <ButtonIcon />
+            <ButtonIcon text="Inicie agora a sua busca"/>
           </Link>
         </div>
         <div className="home-image-container">
