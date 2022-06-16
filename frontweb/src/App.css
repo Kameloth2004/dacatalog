@@ -11,7 +11,7 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 0;
 }
 
-.a, a:hover {
+a, a:hover {
     color: unset;
     text-decoration: none;
 }
