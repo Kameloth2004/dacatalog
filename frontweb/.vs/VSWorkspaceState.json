@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\components",
+    "\\src\\components\\ProductCard",
+    "\\src\\pages",
+    "\\src\\pages\\ProductDetails",
+    "\\src\\pages\\ProductDetails\\ProductDetailsLoader",
+    "\\src\\pages\\ProductDetails\\ProductInfoLoader"
+  ],
+  "SelectedNode": "\\src\\components\\ProductCard\\index.tsx",
+  "PreviewInSolutionExplorer": false
+}
