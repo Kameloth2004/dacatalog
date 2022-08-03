@@ -1,7 +1,45 @@
 import './styles.css';
-
 import { Link, NavLink } from 'react-router-dom';
+import { getTokenData, isAuthenticated, removeAuthData, TokenData } from 'util/requests';
+import { useEffect, useState } from 'react';
+import history from 'util/history';
+
+type AuthData ={
+  authenticated: boolean;
+  tokenData?: TokenData
+}
+
 const Navbar = () => {
+
+  const [AuthData, setAuthData] = useState<AuthData>({authenticated: false});
+
+  useEffect(() => {
+    if (isAuthenticated()) {
+      setAuthData({
+        authenticated: true,
+        tokenData: getTokenData()
+      });
+    }
+
+    else {
+      setAuthData({
+        authenticated: false
+    
+      });
+    }
+    
+  }, []);
+
+  const handleLogoutClick = (event: React.MouseEvent<HTMLAnchorElement> ) => {
+    event.preventDefault();
+    removeAuthData();
+    setAuthData({
+      authenticated: false,
+  
+    });
+    history.replace('/');
+  }
+
   return (
     <nav className="navbar navbar-dark navbar-expand-md bg-primary main-nav">
       <div className="container-fluid">
@@ -36,6 +74,21 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
+
+        <div>
+          {AuthData.authenticated ? (
+            <>
+            <span>{AuthData.tokenData?.user_name}</span>
+            <Link to='/admin/auth' onClick={handleLogoutClick}>LOGOUT</Link>
+            </>
+          ) : (
+            <Link to='/admin/auth'>LOGIN</Link>
+             
+          )
+            
+          }
+        </div>
+
       </div>
     </nav>
   );
