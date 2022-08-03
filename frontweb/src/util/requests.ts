@@ -97,8 +97,10 @@ axios.interceptors.response.use(
 
 export const getTokenData = () : TokenData | undefined => {
     
+    const LoginResponse = getAuthData();
+
     try {
-        return jwtDecode(getAuthData().access_token) as TokenData;
+        return jwtDecode(LoginResponse.access_token) as TokenData;
     }
     catch (error) {
         return undefined;
