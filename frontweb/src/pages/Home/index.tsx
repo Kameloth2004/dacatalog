@@ -2,6 +2,7 @@ import { ReactComponent as MainImage } from 'assets/images/main-image.svg';
 import ButtonIcon from 'components/ButtonIcon';
 import './styles.css';
 import { Link } from 'react-router-dom';
+import { hasAnyRoles } from 'util/requests';
 
 const App = () => {
   return (
@@ -10,6 +11,7 @@ const App = () => {
     
     <div className="home-container">
 
+      <h1>Resultado = {hasAnyRoles(['ROLE_ADMIN']) ? 'SIM' : 'NÃO'}</h1>
 
       <div className="base-card home-card">
         <div className="home-content-container">
