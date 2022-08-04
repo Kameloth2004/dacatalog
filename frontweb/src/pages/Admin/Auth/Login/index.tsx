@@ -2,8 +2,9 @@ import { Link, useHistory } from 'react-router-dom';
 import ButtonIcon from 'components/ButtonIcon';
 import { useForm } from 'react-hook-form';
 import './styles.css';
-import { getAuthData, requestBackendLogin, saveAuthData } from 'util/requests';
-import { useState } from 'react';
+import { getTokenData, requestBackendLogin, saveAuthData } from 'util/requests';
+import { useContext, useState } from 'react';
+import { AuthContext } from 'AuthContext';
 
 type FormData = {
   username: string;
@@ -11,17 +12,24 @@ type FormData = {
 };
 
 const Login = () => {
+  const { setAuthContextData } = useContext(AuthContext);
   const [hasError, setHasError] = useState(false);
   const history = useHistory();
-  const { register, handleSubmit, formState : { errors } } = useForm<FormData>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
   const onSubmit = (formData: FormData) => {
     requestBackendLogin(formData)
       .then((response) => {
         saveAuthData(response.data);
-        const token = getAuthData().access_token;
-        console.log('TOKEN GERADO: ' + token);
+
         setHasError(false);
-        console.log('SUCESSO', response);
+        setAuthContextData({
+          authenticated: true,
+          tokenData: getTokenData(),
+        });
         history.push(`/admin`);
       })
       .catch((error) => {
@@ -40,31 +48,39 @@ const Login = () => {
         <div className="mb-4">
           <input
             {...register('username', {
-                required: 'Campo obrigatorio',
-                pattern: {
-                value:  /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: 'Email inválido'
-            }
-        })}
+              required: 'Campo obrigatorio',
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: 'Email inválido',
+              },
+            })}
             type="text"
-            className={`form-control base-input ${errors.username ? 'is-invalid' : ''} `}
+            className={`form-control base-input ${
+              errors.username ? 'is-invalid' : ''
+            } `}
             placeholder="Email"
             name="username"
           />
         </div>
-        <div className='invalid-feedback d-block'>{errors.username?.message}</div>
+        <div className="invalid-feedback d-block">
+          {errors.username?.message}
+        </div>
         <div className="mb-2">
           <input
             {...register('password', {
-                required: 'Campo obrigatório'
+              required: 'Campo obrigatório',
             })}
             type="password"
-            className={`form-control base-input ${errors.password ? 'is-invalid' : ''} `}
+            className={`form-control base-input ${
+              errors.password ? 'is-invalid' : ''
+            } `}
             placeholder="Password"
             name="password"
           />
         </div>
-        <div className='invalid-feedback d-block'>{errors.password?.message}</div>
+        <div className="invalid-feedback d-block">
+          {errors.password?.message}
+        </div>
         <Link to="/admin/auth/recover" className="login-link-recover">
           Esqueci a senha
         </Link>
