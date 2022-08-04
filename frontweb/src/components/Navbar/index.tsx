@@ -1,43 +1,35 @@
 import './styles.css';
 import { Link, NavLink } from 'react-router-dom';
-import { getTokenData, isAuthenticated, removeAuthData } from 'util/requests';
 import { useContext, useEffect } from 'react';
 import history from 'util/history';
 import { AuthContext } from 'AuthContext';
-
-
+import { getTokenData, isAuthenticated } from 'util/auth';
+import { removeAuthData } from 'util/storage';
 
 const Navbar = () => {
-
   const { authContextData, setAuthContextData } = useContext(AuthContext);
 
-  
   useEffect(() => {
     if (isAuthenticated()) {
       setAuthContextData({
         authenticated: true,
-        tokenData: getTokenData()
+        tokenData: getTokenData(),
       });
-    }
-
-    else {
+    } else {
       setAuthContextData({
-        authenticated: false
-    
+        authenticated: false,
       });
     }
-    
   }, [setAuthContextData]);
 
-  const handleLogoutClick = (event: React.MouseEvent<HTMLAnchorElement> ) => {
+  const handleLogoutClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     removeAuthData();
     setAuthContextData({
       authenticated: false,
-  
     });
     history.replace('/');
-  }
+  };
 
   return (
     <nav className="navbar navbar-dark navbar-expand-md bg-primary main-nav">
@@ -66,28 +58,32 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/products" activeClassName="active">CATÁLOGO</NavLink>
+              <NavLink to="/products" activeClassName="active">
+                CATÁLOGO
+              </NavLink>
             </li>
             <li>
-              <NavLink to="/admin" activeClassName="active">ADMIN</NavLink>
+              <NavLink to="/admin" activeClassName="active">
+                ADMIN
+              </NavLink>
             </li>
           </ul>
         </div>
 
-        <div className='nav-login-logout'>
+        <div className="nav-login-logout">
           {authContextData.authenticated ? (
             <>
-            <span className='nav-user-name'>{authContextData.tokenData?.user_name}</span>
-            <Link to='/admin/auth' onClick={handleLogoutClick}>LOGOUT</Link>
+              <span className="nav-user-name">
+                {authContextData.tokenData?.user_name}
+              </span>
+              <Link to="/admin/auth" onClick={handleLogoutClick}>
+                LOGOUT
+              </Link>
             </>
           ) : (
-            <Link to='/admin/auth'>LOGIN</Link>
-             
-          )
-            
-          }
+            <Link to="/admin/auth">LOGIN</Link>
+          )}
         </div>
-
       </div>
     </nav>
   );
