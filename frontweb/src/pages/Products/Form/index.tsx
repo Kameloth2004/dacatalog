@@ -1,35 +1,39 @@
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { Product } from 'types/product';
 import { requestBackend } from 'util/requests';
 import { AxiosRequestConfig } from 'axios';
 import { useHistory, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import './styles.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Category } from 'types/category';
 
 type UrlParams = {
   productId: string;
 };
 
 const Form = () => {
-  const options = [
-    { value: 'cholocate', label: 'Chocolate' },
-    { value: 'caramel', label: 'Caramel' },
-    { value: 'Candy', label: 'Candy' },
-  ];
-
   const history = useHistory();
 
   const { productId } = useParams<UrlParams>();
 
   const isEditing = productId !== 'create';
 
+  const [selectCategories, setSelectCategories] = useState<Category[]>([]);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
+    control,
   } = useForm<Product>();
+
+  useEffect(() => {
+    requestBackend({ url: '/categories' }).then((response) => {
+      setSelectCategories(response.data.content);
+    });
+  }, []);
 
   useEffect(() => {
     if (isEditing) {
@@ -96,11 +100,30 @@ const Form = () => {
               </div>
 
               <div className="margin-bottom-30">
-                <Select options={options}
-                classNamePrefix={'product-crud-select'}
-                isMulti
+                <Controller
+                  name="categories"
+                  rules={{ required: true }}
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={selectCategories}
+                      classNamePrefix={'product-crud-select'}
+                      isMulti
+                      getOptionLabel={(category: Category) => category.name}
+                      getOptionValue={(category: Category) =>
+                        String(category.id)
+                      }
+                    />
+                  )}
                 />
               </div>
+
+              {errors.categories && (
+                <div className="invalid-feedback d-block">
+                  Campo obrigatário
+                </div>
+              )}
 
               <div className="margin-bottom-30">
                 <input
@@ -119,9 +142,7 @@ const Form = () => {
                   {errors.price?.message}
                 </div>
               </div>
-              <div>
-                <input type="text" className="form-control base-input" />
-              </div>
+              
             </div>
             <div className="col-lg-6">
               <div>
