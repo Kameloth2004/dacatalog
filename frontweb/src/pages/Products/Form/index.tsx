@@ -3,7 +3,7 @@ import { Product } from 'types/product';
 import { requestBackend } from 'util/requests';
 import { AxiosRequestConfig } from 'axios';
 import { useHistory, useParams } from 'react-router-dom';
-
+import Select from 'react-select';
 import './styles.css';
 import { useEffect } from 'react';
 
@@ -12,6 +12,12 @@ type UrlParams = {
 };
 
 const Form = () => {
+  const options = [
+    { value: 'cholocate', label: 'Chocolate' },
+    { value: 'caramel', label: 'Caramel' },
+    { value: 'Candy', label: 'Candy' },
+  ];
+
   const history = useHistory();
 
   const { productId } = useParams<UrlParams>();
@@ -87,6 +93,13 @@ const Form = () => {
                 <div className="invalid-feedback d-block">
                   {errors.name?.message}
                 </div>
+              </div>
+
+              <div className="margin-bottom-30">
+                <Select options={options}
+                classNamePrefix={'product-crud-select'}
+                isMulti
+                />
               </div>
 
               <div className="margin-bottom-30">
