@@ -7,12 +7,16 @@ import { Controller, useForm } from 'react-hook-form';
 import './styles.css';
 import { requestBackend } from 'util/requests';
 
-type ProductFilterData = {
+export type ProductFilterData = {
   name: string;
   category: Category | null;
 };
 
-const ProductFilter = () => {
+export type Props = {
+  onSubmitFilter: (data : ProductFilterData) => void;
+  }
+
+const ProductFilter = (  {onSubmitFilter} : Props) => {
   const [selectCategories, setSelectCategories] = useState<Category[]>([]);
 
   const { register, handleSubmit, setValue, getValues, control } =
@@ -24,7 +28,7 @@ const ProductFilter = () => {
   };
 
   const onSubmit = (formData: ProductFilterData) => {
-    console.log('ENVIOU', formData);
+    onSubmitFilter(formData);
   };
 
   const handleChangeCategory = (value: Category) => {
@@ -34,7 +38,7 @@ const ProductFilter = () => {
       name: getValues('name'),
       category: getValues('category')
     }
-    console.log('ENVIOU', obj);
+    onSubmitFilter(obj);
   };
 
   useEffect(() => {
