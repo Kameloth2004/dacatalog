@@ -12,7 +12,7 @@ describe('ProductPrice tests', () => {
             <ProductPrice price={price}/>
                 
         )
-        screen.debug();
+        
         expect(screen.getByText("R$")).toBeInTheDocument();
         expect(screen.getByText("10,10")).toBeInTheDocument();
     })

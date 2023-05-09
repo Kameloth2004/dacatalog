@@ -17,7 +17,7 @@ describe('ProductCard tests', () => {
             <ProductCard product ={product}/>
                 
         );
-        screen.debug();
+        
         expect(screen.getByText(product.name)).toBeInTheDocument;
         expect(screen.getByAltText(product.name)).toBeInTheDocument;
         expect(screen.getByText("R$")).toBeInTheDocument();
