@@ -11,7 +11,7 @@ type Props = {
 }
 
 
-const Pagination = ({ forcePage,pageCount, range,  onChange} : Props) => {
+const Pagination = ({ forcePage, pageCount, range,  onChange} : Props) => {
   return (
     <ReactPaginate
       forcePage={forcePage}
