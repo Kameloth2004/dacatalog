@@ -67,6 +67,33 @@ describe('Product form creat tests', () =>{
            
         });
 
+        test('Should show 5 validations messages when clicking submit', async () => {
+    
+            render(
+                <Router history={history}>
+                    <Form />
+                    
+                </Router>
+                
+            );
+            
+         
+           const submitButton = screen.getByRole('button', {name: /salvar/i});
+
+           userEvent.click(submitButton);
+
+           await waitFor(() => {
+            const messages = screen.getAllByText("Campo obrigatorio");
+            expect(messages).toHaveLength(5);
+           });
+
+                
+
+
+           
+           
+           
+        });
    
 
     

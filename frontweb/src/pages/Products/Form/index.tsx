@@ -68,9 +68,9 @@ const Form = () => {
       toast.info('Produto cadastrado com sucesso');
       history.push('/admin/products');
     })
-    .catch(() => {
-      toast.error("Erro ao cadastrar produto");
-    })
+      .catch(() => {
+        toast.error("Erro ao cadastrar produto");
+      })
   };
 
   const handleCancel = () => {
@@ -90,9 +90,8 @@ const Form = () => {
                     required: 'Campo obrigatorio',
                   })}
                   type="text"
-                  className={`form-control base-input ${
-                    errors.name ? 'is-invalid' : ''
-                  } `}
+                  className={`form-control base-input ${errors.name ? 'is-invalid' : ''
+                    } `}
                   placeholder="Nome do produto"
                   name="name"
                   data-testid="name"
@@ -107,7 +106,7 @@ const Form = () => {
                 <label htmlFor="categories" className='d-none'>Categorias</label>
                 <Controller
                   name="categories"
-                  rules={{ required: true }}
+                  rules={{ required: 'Campo obrigatorio' }}
                   control={control}
                   render={({ field }) => (
                     <Select
@@ -118,7 +117,7 @@ const Form = () => {
                       getOptionLabel={(category: Category) => category.name}
                       getOptionValue={(category: Category) =>
                         String(category.id)
-                        
+
                       }
                       inputId="categories"
                     />
@@ -128,7 +127,7 @@ const Form = () => {
 
               {errors.categories && (
                 <div className="invalid-feedback d-block">
-                  Campo obrigatário
+                  {errors.categories.message}
                 </div>
               )}
 
@@ -140,9 +139,8 @@ const Form = () => {
                   render={({ field }) => (
                     <CurrencyInput
                       placeholder="Preço"
-                      className={`form-control base-input ${
-                        errors.name ? 'is-invalid' : ''
-                      }`}
+                      className={`form-control base-input ${errors.name ? 'is-invalid' : ''
+                        }`}
                       disableGroupSeparators={true}
                       value={field.value}
                       onValueChange={field.onChange}
@@ -166,9 +164,8 @@ const Form = () => {
                     },
                   })}
                   type="text"
-                  className={`form-control base-input ${
-                    errors.name ? 'is-invalid' : ''
-                  } `}
+                  className={`form-control base-input ${errors.name ? 'is-invalid' : ''
+                    } `}
                   placeholder="Url da Imagem"
                   name="imgUrl"
                   data-testid="imgUrl"
@@ -186,9 +183,8 @@ const Form = () => {
                   {...register('description', {
                     required: 'Campo obrigatorio',
                   })}
-                  className={`form-control base-input h-auto ${
-                    errors.description ? 'is-invalid' : ''
-                  } `}
+                  className={`form-control base-input h-auto ${errors.description ? 'is-invalid' : ''
+                    } `}
                   placeholder="Descrição"
                   name="description"
                   data-testid="description"
