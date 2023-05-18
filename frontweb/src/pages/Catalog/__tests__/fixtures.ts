@@ -90,7 +90,6 @@ const findAllResponse = {
     "empty": false
 }
 
-
 export const server = setupServer(
 
     rest.get(`${BASE_URL}/products`, (req, res, ctx) => {
