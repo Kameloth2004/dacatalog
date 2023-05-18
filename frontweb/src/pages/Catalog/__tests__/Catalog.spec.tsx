@@ -4,7 +4,6 @@ import { Router } from "react-router-dom";
 import history from 'util/history';
 import { server } from './fixtures';
 
-
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
@@ -23,7 +22,5 @@ test("Should render catalog with products", async () => {
     await waitFor(() => {
         expect(screen.getByText("Macbook Pro")).toBeInTheDocument();
     });
-
-
 
 });
