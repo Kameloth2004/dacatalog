@@ -8,6 +8,7 @@ import './styles.css';
 import { useEffect, useState } from 'react';
 import { Category } from 'types/category';
 import CurrencyInput from 'react-currency-input-field';
+import { toast } from 'react-toastify';
 
 type UrlParams = {
   productId: string;
@@ -64,8 +65,12 @@ const Form = () => {
     };
 
     requestBackend(config).then(() => {
+      toast.info('Produto cadastrado com sucesso');
       history.push('/admin/products');
-    });
+    })
+    .catch(() => {
+      toast.error("Erro ao cadastrar produto");
+    })
   };
 
   const handleCancel = () => {
@@ -90,6 +95,7 @@ const Form = () => {
                   } `}
                   placeholder="Nome do produto"
                   name="name"
+                  data-testid="name"
                 />
 
                 <div className="invalid-feedback d-block">
@@ -98,6 +104,7 @@ const Form = () => {
               </div>
 
               <div className="margin-bottom-30">
+                <label htmlFor="categories" className='d-none'>Categorias</label>
                 <Controller
                   name="categories"
                   rules={{ required: true }}
@@ -111,7 +118,9 @@ const Form = () => {
                       getOptionLabel={(category: Category) => category.name}
                       getOptionValue={(category: Category) =>
                         String(category.id)
+                        
                       }
+                      inputId="categories"
                     />
                   )}
                 />
@@ -137,6 +146,7 @@ const Form = () => {
                       disableGroupSeparators={true}
                       value={field.value}
                       onValueChange={field.onChange}
+                      data-testid="price"
                     />
                   )}
                 />
@@ -161,6 +171,7 @@ const Form = () => {
                   } `}
                   placeholder="Url da Imagem"
                   name="imgUrl"
+                  data-testid="imgUrl"
                 />
 
                 <div className="invalid-feedback d-block">
@@ -180,6 +191,7 @@ const Form = () => {
                   } `}
                   placeholder="Descrição"
                   name="description"
+                  data-testid="description"
                 />
                 <div className="invalid-feedback d-block">
                   {errors.description?.message}
