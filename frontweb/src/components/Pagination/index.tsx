@@ -11,7 +11,7 @@ type Props = {
 }
 
 
-const Pagination = ({ forcePage,pageCount, range,  onChange} : Props) => {
+const Pagination = ({ forcePage, pageCount, range,  onChange} : Props) => {
   return (
     <ReactPaginate
       forcePage={forcePage}
@@ -23,8 +23,8 @@ const Pagination = ({ forcePage,pageCount, range,  onChange} : Props) => {
       breakClassName="pagination-item"
       previousClassName="arrow-previous"
       nextClassName="arrow-next"
-      previousLabel={<div className="pagination-arrow-container"><ArrowIcon /></div>}
-      nextLabel={<div className="pagination-arrow-container"><ArrowIcon /></div>}
+      previousLabel={<div className="pagination-arrow-container" data-testid="arrow-previous"><ArrowIcon /></div>}
+      nextLabel={<div className="pagination-arrow-container" data-testid="arrow-next"><ArrowIcon /></div>}
       activeLinkClassName="pagination-link-active"
       disabledClassName="arrow-inactive"
       onPageChange={ (items) => (onChange) ? onChange(items.selected) : {}}
